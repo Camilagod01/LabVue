@@ -1,7 +1,8 @@
 <script setup >
+import { ref, watch } from 'vue';
 import ChatBubble from './ChatBubble.vue';
 
-defineProps({
+const props = defineProps({
   messages:{
 type:Array
   },
@@ -9,11 +10,36 @@ type:Array
 
 })
 
+const chatRef = ref()
+
+
+watch(()=> props.messages,()=>{
+
+console.log('message', props.messages , length);
+setTimeout(()=>{
+chatRef.value.scrollTo({
+
+  top: chatRef.value.scrollHeight,
+  behavior: 'smooth'
+
+})
+
+},900)
+},{deep: true})
+
+
+/*
+
+console.log(chatRef.value);
+
+},100)*/
+
+
 </script>
 
 <template>
 
-<div class="flex-1 overflow-y-auto p-4">
+<div ref="chatRef" class="flex-1 overflow-y-auto p-4">
         <div class="flex flex-col space-y-2">
             <!-- Messages go here -->
            <ChatBubble
